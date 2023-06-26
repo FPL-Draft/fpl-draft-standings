@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '@/../styles/Table.module.css';
+import styles from '@/styles/Table.module.css';
 import getStandings from '@/utils/getRankings';
 
 export default function StandingsTable() {
