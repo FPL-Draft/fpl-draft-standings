@@ -4,7 +4,7 @@ with weeklyRanks as (
     mr.team_id team,
     mr.match_id,
     mr.points as fplPoints,
-    row_number() over (partition by mr.match_id order by mr.points desc) wr
+    rank() over (partition by mr.match_id order by mr.points desc) wr
   from public.match_results as mr
 ),
 weeklyRankPoints as (
