@@ -1,33 +1,44 @@
 'use client';
 import { useState } from 'react';
-import DraftFixtures from '@/components/DraftFixtures';
-import ViewButton from '@/components/ViewButtons';
-import DraftResults from '@/components/DraftResults';
+import DraftCurrentFixtures from '@/components/TableView/DraftCurrentFixturesTable';
+import DraftResults from '@/components/TableView/DraftResultsTable';
+import DraftFixtures from '@/components/TableView/DraftFixturesTable';
+import Layout from '@/components/Layout/PageLayout';
+import { SelectTable } from '@/components/Select';
+
+// Define the type for select options
+type SelectOption = {
+  value: string;
+  label: string;
+};
 
 export default function DetailView() {
-  const [activeTableMatches, setActiveTableMatches] = useState('fixtures');
+  const [activeTableMatches, setActiveTableMatches] =
+    useState<string>('currentFixtures');
+
+  // Define options for the select dropdown
+  const selectOptions: SelectOption[] = [
+    { value: 'currentFixtures', label: 'GW Live' },
+    { value: 'results', label: 'H2H Results' },
+    { value: 'fixtures', label: 'H2H Fixtures' },
+  ];
 
   return (
-    <main className={`justify-start py-10 md:py-20`}>
-      <h1 className='text-[#310639] text-4xl pb-5 font-semibold animate-fade-up text-center'>
-        Matches
-      </h1>
-      <div className='md:grid-cols-3 grid grid-cols-2 gap-4 pb-10'>
-        <ViewButton
-          isActive={activeTableMatches === 'fixtures'}
-          onClick={() => setActiveTableMatches('fixtures')}
-        >
-          GW Live
-        </ViewButton>
-        <ViewButton
-          isActive={activeTableMatches === 'results'}
-          onClick={() => setActiveTableMatches('results')}
-        >
-          Results
-        </ViewButton>
+    <Layout>
+      <h1 className='pb-5 text-4xl font-semibold text-[#310639]'>Matches</h1>
+      <SelectTable
+        options={selectOptions}
+        onSelectChange={(value) => setActiveTableMatches(value)}
+        placeholder='Select an option'
+      />
+
+      <hr className='my-6 border border-b border-transparent' />
+
+      <div>
+        {activeTableMatches === 'currentFixtures' && <DraftCurrentFixtures />}
       </div>
-      <div className='mt-4'>{activeTableMatches === 'fixtures' && <DraftFixtures />}</div>
-      <div className='mt-4'>{activeTableMatches === 'results' && <DraftResults />}</div>
-    </main>
+      <div>{activeTableMatches === 'results' && <DraftResults />}</div>
+      <div>{activeTableMatches === 'fixtures' && <DraftFixtures />}</div>
+    </Layout>
   );
 }

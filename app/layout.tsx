@@ -6,8 +6,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 
 // Components and Style
 import '../styles/globals.css';
-import Footer from '../components/Footer';
-import HeaderNav from '../components/HeaderNav';
+import Footer from '@/components/Layout/Footer';
+import HeaderNav from '@/components/Layout/HeaderNav';
 import { bgGradient } from '@/utils/tailwindVars';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
@@ -50,13 +50,20 @@ export const viewport: Viewport = {
   themeColor: 'white',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang='en'
-      className={clsx(`h-full ${bgGradient} from-30% antialiased scroll-smooth`, inter.variable)}
+      className={clsx(
+        `h-full ${bgGradient} scroll-smooth from-30% antialiased`,
+        inter.variable,
+      )}
     >
-      <body className='flex min-h-full flex-col font-inter'>
+      <body className={`font-inter flex min-h-full flex-col bg-transparent`}>
         <HeaderNav />
         <div className='flex flex-1 flex-col'>{children}</div>
         <Analytics />

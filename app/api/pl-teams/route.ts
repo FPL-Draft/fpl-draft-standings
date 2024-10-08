@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
-import { Match } from '@/interfaces/match';
-// import standing from '@/data/league-details.json';
 
-async function fetchData(): Promise<{ matches: Match[] }> {
+async function fetchData() {
   try {
     const res = await fetch(
-      'https://draft.premierleague.com/api/league/5525/details',
+      'https://fantasy.premierleague.com/api/bootstrap-static',
       {
         next: {
           revalidate: 3600, // 1 hour
@@ -21,8 +19,8 @@ async function fetchData(): Promise<{ matches: Match[] }> {
 
 export const GET = async (req: Request, res: Response) => {
   try {
-    const { matches } = await fetchData();
-    return NextResponse.json(matches);
+    const { teams } = await fetchData();
+    return NextResponse.json(teams);
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 });
   }
